@@ -1,4 +1,4 @@
-import { Graphviz } from "@hpcc-js/wasm/graphviz";
+import { Graphviz } from "@hpcc-js/wasm";
 import { dedent } from "@qnighy/dedent";
 import { JSDOM } from "jsdom";
 import rehypeStringify from "rehype-stringify";
