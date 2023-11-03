@@ -43,20 +43,21 @@ digraph {
 `;
 
 const html = unified()
-	.use(remarkParse)
-	.use(remarkRehype)
-	.use(rehypeGraphviz, {
-		graphviz: await Graphviz.load(),
-	})
-	.use(rehypeStringify)
-	.processSync(md)
-	.toString();
+  .use(remarkParse)
+  .use(remarkRehype)
+  .use(rehypeGraphviz, {
+    graphviz: await Graphviz.load(),
+  })
+  .use(rehypeStringify)
+  .processSync(md)
+  .toString();
 
 console.log(html);
 ```
 
 Yields:
 
+<!-- prettier-ignore -->
 ```html
 <h1>Hello World</h1>
 <div class="graphviz-diagram" style="overflow: auto;">
@@ -92,16 +93,24 @@ Yields:
 
 ## Development
 
-To install dependencies:
+### Commands
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run src/index.ts
-```
+| Command                       | Description               |
+| ----------------------------- | ------------------------- |
+| `bun install`                 | Install dependencies      |
+| `bun run build`               | Build the project         |
+| `bun run test`                | Run tests with watch mode |
+| `bun run check`               | Lint and format           |
+| `npm publish --access public` | Publish to npm            |
 
 This project was created using `bun init` in bun v1.0.7. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+
+### Publishing
+
+1. Update version in `package.json`
+2. commit with tag `vX.X.X`
+3. push to GitHub
+
+## License
+
+MIT License © 2023 rai
