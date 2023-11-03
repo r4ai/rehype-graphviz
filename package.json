@@ -1,6 +1,6 @@
 {
   "name": "rehype-graphviz",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate SVG from Graphviz DOT code",
   "keywords": [
     "rehype",
