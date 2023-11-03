@@ -76,6 +76,24 @@ export type RehypeGraphvizOption = Readonly<{
    * ```
    */
   style?: string;
+
+  /**
+   * Post processing function for rendered SVG element.
+   * @argument svg - SVG element as string
+   * @returns post processed SVG element as string
+   * @default (svg) => svg
+   * @example
+   * ```js
+   * // Replace black and white colors with currentColor and background-primary
+   * // for dark mode support.
+   * const options = {
+   *   postProcess: (svg) => svg
+   *     .replaceAll(/("#000"|"black")/g, `"currentColor"`)
+   *		 .replaceAll(/("#fff"|"white")/g, `"var(--background-primary)"`)
+   * }
+   * ```
+   */
+  postProcess?: (svg: string) => string;
 }>;
 
 export const defaultRehypeGraphvizOption = {
@@ -85,6 +103,7 @@ export const defaultRehypeGraphvizOption = {
   },
   className: "graphviz-diagram",
   style: "overflow: auto;",
+  postProcess: (svg: string) => svg,
 } as const satisfies Required<RehypeGraphvizOption>;
 
 export const rehypeGraphviz: Plugin<[RehypeGraphvizOption], Root> = (
@@ -124,7 +143,7 @@ export const rehypeGraphviz: Plugin<[RehypeGraphvizOption], Root> = (
 
       // Generate SVG from the code
       const dotCode = code.children[0].value;
-      const svg = graphviz.dot(dotCode);
+      const svg = mergedOptions.postProcess(graphviz.dot(dotCode));
       const svgHast = fromHtmlIsomorphic(svg, {
         fragment: true,
       });
