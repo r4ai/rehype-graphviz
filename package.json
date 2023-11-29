@@ -42,7 +42,7 @@
     "bun-types": "^1.0.7",
     "hast": "^1.0.0",
     "husky": "^8.0.0",
-    "jsdom": "^22.1.0",
+    "jsdom": "^23.0.0",
     "lint-staged": "^15.0.2",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
