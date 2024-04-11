@@ -35,7 +35,7 @@
     "hast-util-from-html-isomorphic": "^2.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.3",
+    "@biomejs/biome": "1.6.4",
     "@qnighy/dedent": "^0.1.1",
     "@types/jsdom": "^21.1.4",
     "bun-plugin-dts": "^0.2.1",
