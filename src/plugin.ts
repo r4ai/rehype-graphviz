@@ -1,7 +1,7 @@
 import { Graphviz } from "@hpcc-js/wasm/graphviz";
 import type { ElementContent, Root } from "hast";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
-import { type Plugin } from "unified";
+import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
 /**
@@ -116,7 +116,7 @@ export const rehypeGraphviz: Plugin<[RehypeGraphvizOption], Root> = (
 
   const graphviz = mergedOptions.graphviz;
 
-  return (tree, file) => {
+  return (tree) => {
     visit(tree, "element", (code, index, pre) => {
       // check if the current node is a block code element
       // if not, return
