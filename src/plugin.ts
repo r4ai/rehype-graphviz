@@ -25,8 +25,8 @@ export type RehypeGraphvizOption = Readonly<{
   /**
    * Language associations.
    * @default
-   * ```json
-   * { "dot": ["graphviz"] }
+   * ```js
+   * { dot: ["graphviz"] }
    * ```
    * @example
    * Generage graphviz diagram from `graphviz`, `graphviz-diagram`, and `graphviz-dot` language code blocks:
@@ -95,7 +95,7 @@ export type RehypeGraphvizOption = Readonly<{
    *   className: "graphviz",
    * }
    * ```
-   * Yield:
+   * Yields:
    * ```html
    * <div class="graphviz">
    *   <svg>...</svg>
@@ -114,7 +114,7 @@ export type RehypeGraphvizOption = Readonly<{
    *   style: "overflow: clip;"
    * }
    * ```
-   * Yield:
+   * Yields:
    * ```html
    * <div style="overflow: clip;">
    *   <svg>...</svg>

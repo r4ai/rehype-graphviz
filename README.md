@@ -91,6 +91,193 @@ Yields:
 </div>
 ```
 
+## Options
+
+### `graphviz`
+
+`@phcc-js/wasm/graphviz`'s `Graphviz` instance.
+
+- **See:** https://hpcc-systems.github.io/hpcc-js-wasm/getting-started.html
+
+- **Example:**
+
+  ```js
+  import { Graphviz } from "@hpcc-js/wasm/graphviz";
+  const options = {
+    graphviz: await Graphviz.load(),
+  };
+  ```
+
+- **Type:**[`Graphviz`](https://hpcc-systems.github.io/hpcc-js-wasm/classes/graphviz.Graphviz.html)
+
+### `langAssociations`
+
+Language associations.
+
+- **Default value:**
+
+  ```js
+  {
+    dot: ["graphviz"];
+  }
+  ```
+
+- **Example:**
+
+  Generage graphviz diagram from `graphviz`, `graphviz-diagram`, and `graphviz-dot` language code blocks:
+
+  ```js
+  const options = {
+    langAssociations: {
+      dot: ["graphviz", "graphviz-diagram", "graphviz-dot"],
+    },
+  };
+  ```
+
+- **Type:**
+
+  ```ts
+  Readonly<{
+    dot?: readonly string[];
+  }>;
+  ```
+
+### `tagName`
+
+Tag name for the container element of the graphviz diagram.
+
+- **Default value:** `"div"`
+- **Example:**
+
+  ```js
+  const options = {
+    tagName: "figure",
+  };
+  ```
+
+  Yields:
+
+  ```html
+  <figure>
+    <svg>...</svg>
+  </figure>
+  ```
+
+- **Type:** `string`
+
+### `properties`
+
+Properties to be added to the container element of the graphviz diagram.
+
+- **Default value:**
+
+  ```js
+  {
+    className: "graphviz-diagram",
+    style: "overflow: auto;",
+  }
+  ```
+
+- **Example:**
+
+  ```js
+  const options = {
+    properties: {
+      className: "graphviz",
+      style: "overflow: clip;",
+    },
+  };
+  ```
+
+  Yields:
+
+  ```html
+  <div class="graphviz" style="overflow: clip;">
+    <svg>...</svg>
+  </div>
+  ```
+
+- **Type:** [`Properties`](https://github.com/syntax-tree/hast?tab=readme-ov-file#properties)
+
+### ~~`className`~~ (deprecated)
+
+> [!WARNING]
+> Use [`properties.className`](#properties) instead. When both are set, [`properties.className`](#properties) will be used.
+
+Class name to be added to the container element of the graphviz diagram.
+
+- **Default value:** `"graphviz-diagram"`
+
+- **Example:**
+
+  ```js
+  const options = {
+    className: "graphviz",
+  };
+  ```
+
+  Yields:
+
+  ```html
+  <div class="graphviz-diagram graphviz">
+    <svg>...</svg>
+  </div>
+  ```
+
+- **Type:** `string`
+
+### ~~`style`~~ (deprecated)
+
+> [!WARNING]
+> Use [`properties.style`](#properties) instead. When both are set, [`properties.style`](#properties) will be used.
+
+Style to be added to the container element of the graphviz diagram.
+
+- **Default value:** "overflow: auto;"
+
+- **Example:**
+
+  ```js
+  const options = {
+    style: "overflow: clip;",
+  };
+  ```
+
+  Yields:
+
+  ```html
+  <div style="overflow: clip;">
+    <svg>...</svg>
+  </div>
+  ```
+
+- **Type:** `string`
+
+### `postProcess`
+
+Post processing function for rendered SVG element.
+
+- **Default value:** `(svg) => svg`
+
+- **Example:**
+
+  ```js
+  // Replace black and white colors with currentColor and background-primary
+  // for dark mode support.
+  const options = {
+    postProcess: (svg) =>
+      svg
+        .replaceAll(/("#000"|"black")/g, `"currentColor"`)
+        .replaceAll(/("#fff"|"white")/g, `"var(--background-primary)"`),
+  };
+  ```
+
+- **Type:** `(svg: string) => string`
+
+  - **Parameters:**
+    - `svg`: SVG element as string
+  - **Returns:** post processed SVG element as string
+
 ## Development
 
 ### Commands
@@ -113,4 +300,4 @@ This project was created using `bun init` in bun v1.0.7. [Bun](https://bun.sh) i
 
 ## License
 
-MIT License © 2023 rai
+MIT License © 2023-2024 rai
