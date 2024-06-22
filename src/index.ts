@@ -1,4 +1,12 @@
-import { type RehypeGraphvizOption, rehypeGraphviz } from "./plugin.js";
+import {
+  type RehypeGraphvizOption,
+  defaultRehypeGraphvizOption,
+  rehypeGraphviz,
+} from "./plugin.js";
 
-export { rehypeGraphviz, type RehypeGraphvizOption };
+export {
+  rehypeGraphviz,
+  type RehypeGraphvizOption,
+  defaultRehypeGraphvizOption,
+};
 export default rehypeGraphviz;

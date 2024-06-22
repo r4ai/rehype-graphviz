@@ -6,7 +6,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { beforeAll, describe, expect, test } from "vitest";
-import { defaultRehypeGraphvizOption, rehypeGraphviz } from "./plugin.js";
+import { defaultRehypeGraphvizOption, rehypeGraphviz } from "./index.js";
 
 /**
  * Convert markdown to HTML.
