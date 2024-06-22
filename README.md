@@ -221,7 +221,7 @@ Class name to be added to the container element of the graphviz diagram.
   Yields:
 
   ```html
-  <div class="graphviz-diagram graphviz">
+  <div class="graphviz">
     <svg>...</svg>
   </div>
   ```
