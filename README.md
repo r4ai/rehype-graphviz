@@ -235,7 +235,7 @@ Class name to be added to the container element of the graphviz diagram.
 
 Style to be added to the container element of the graphviz diagram.
 
-- **Default value:** "overflow: auto;"
+- **Default value:** `"overflow: auto;"`
 
 - **Example:**
 
