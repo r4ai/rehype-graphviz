@@ -1,5 +1,6 @@
 import { Graphviz } from "@hpcc-js/wasm/graphviz";
-import type { ElementContent, Root } from "hast";
+import { createDefu } from "defu";
+import type { ElementContent, Properties, Root } from "hast";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
@@ -42,7 +43,51 @@ export type RehypeGraphvizOption = Readonly<{
   }>;
 
   /**
+   * Tag name for the container element of the graphviz diagram.
+   * @default "div"
+   * @example
+   * ```js
+   * const options = {
+   *   tagName: "figure",
+   * }
+   * ```
+   * Yields:
+   * ```html
+   * <figure>
+   *   <svg>...</svg>
+   * </figure>
+   * ```
+   */
+  tagName?: string;
+
+  /**
+   * Properties to be added to the container element of the graphviz diagram.
+   * @default
+   * {
+   *   className: "graphviz-diagram",
+   *   style: "overflow: auto;",
+   * }
+   * @example
+   * ```js
+   * const options = {
+   *   properties: {
+   *     className: "graphviz",
+   *     style: "overflow: clip;",
+   *   }
+   * }
+   * ```
+   * Yields:
+   * ```html
+   * <div class="graphviz" style="overflow: clip;">
+   *   <svg>...</svg>
+   * </div>
+   * ```
+   */
+  properties?: Properties;
+
+  /**
    * Class name to be added to the container element of the graphviz diagram.
+   * @deprecated Use `properties.className` instead. When both are set, `properties.className` will be used.
    * @default "graphviz-diagram"
    * @example
    * ```js
@@ -61,6 +106,7 @@ export type RehypeGraphvizOption = Readonly<{
 
   /**
    * Style to be added to the container element of the graphviz diagram.
+   * @deprecated Use `properties.style` instead. When both are set, `properties.style` will be used.
    * @default "overflow: auto;"
    * @example
    * ```js
@@ -101,18 +147,44 @@ export const defaultRehypeGraphvizOption = {
   langAssociations: {
     dot: ["graphviz"],
   },
+  tagName: "div",
+  properties: {
+    className: "graphviz-diagram",
+    style: "overflow: auto;",
+  },
   className: "graphviz-diagram",
   style: "overflow: auto;",
   postProcess: (svg: string) => svg,
 } as const satisfies Required<RehypeGraphvizOption>;
 
+const mergeDeprecatedOptions = (options: RehypeGraphvizOption) => {
+  const mergedOptions = { ...options };
+
+  mergedOptions.properties ??= {};
+  if (mergedOptions.className && !mergedOptions.properties.className) {
+    mergedOptions.properties.className = mergedOptions.className;
+  }
+  if (mergedOptions.style && !mergedOptions.properties.style) {
+    mergedOptions.properties.style = mergedOptions.style;
+  }
+
+  return mergedOptions;
+};
+
+const defu = createDefu((obj, key, value) => {
+  if (Array.isArray(obj[key]) && Array.isArray(value)) {
+    obj[key] = value;
+    return true;
+  }
+});
+
 export const rehypeGraphviz: Plugin<[RehypeGraphvizOption], Root> = (
   options,
 ) => {
-  const mergedOptions: Required<RehypeGraphvizOption> = {
-    ...defaultRehypeGraphvizOption,
-    ...options,
-  };
+  const mergedOptions = defu(
+    mergeDeprecatedOptions(options),
+    defaultRehypeGraphvizOption,
+  );
 
   const graphviz = mergedOptions.graphviz;
 
@@ -149,9 +221,11 @@ export const rehypeGraphviz: Plugin<[RehypeGraphvizOption], Root> = (
       });
 
       // update the node to be a generated SVG
-      pre.properties.className = mergedOptions.className;
-      pre.properties.style = mergedOptions.style;
-      pre.tagName = "div";
+      pre.properties = {
+        ...pre.properties,
+        ...mergedOptions.properties,
+      };
+      pre.tagName = mergedOptions.tagName;
       pre.children = svgHast.children as ElementContent[];
 
       // biome-ignore lint/style/noParameterAssign:

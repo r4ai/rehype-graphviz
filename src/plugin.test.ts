@@ -294,4 +294,138 @@ describe("rehypeShiki", () => {
       ).toBe(style);
     }
   });
+
+  test("check if `tagName` config works", async () => {
+    const md = dedent`
+      \`\`\`dot
+      digraph G {
+        splines="FALSE";
+
+        /* Entities */
+        shortName [label="shortName", shape="square"]
+
+        /* Relationships */
+        F1 -> shortName[label=".63"]
+
+        /* Ranks */
+        { rank=same; shortName; };
+      }
+      \`\`\`
+    `;
+    const tagNames = ["figure", "section", "article"];
+    for (const tagName of tagNames) {
+      const html = unified()
+        .use(remarkParse)
+        .use(remarkRehype)
+        .use(rehypeGraphviz, {
+          graphviz: await Graphviz.load(),
+          tagName,
+        })
+        .use(rehypeStringify)
+        .processSync(md)
+        .toString();
+      const doc = parser.parseFromString(html, "text/html");
+
+      const digramContainer = doc.querySelector(tagName);
+      expect(
+        digramContainer?.tagName,
+        `Container element should have \`${tagName}\` as its tag name.\n`,
+      ).toBe(tagName.toUpperCase());
+    }
+  });
+
+  test("check if `properties` config works", async () => {
+    const md = dedent`
+      \`\`\`dot
+      digraph G {
+        splines="FALSE";
+
+        /* Entities */
+        shortName [label="shortName", shape="square"]
+
+        /* Relationships */
+        F1 -> shortName[label=".63"]
+
+        /* Ranks */
+        { rank=same; shortName; };
+      }
+      \`\`\`
+    `;
+    const properties = {
+      className: "graphviz",
+      style: "overflow: clip;",
+      dataGraphviz: "true",
+    };
+    const html = unified()
+      .use(remarkParse)
+      .use(remarkRehype)
+      .use(rehypeGraphviz, {
+        graphviz: await Graphviz.load(),
+        properties,
+      })
+      .use(rehypeStringify)
+      .processSync(md)
+      .toString();
+    const doc = parser.parseFromString(html, "text/html");
+
+    const digramContainer = doc.querySelector("div");
+    expect(
+      digramContainer?.className,
+      `Container element should have \`${properties.className}\` as its class name.\n`,
+    ).toBe(properties.className);
+    expect(
+      digramContainer?.style.cssText,
+      `Container element should have \`${properties.style}\` as its class name.\n`,
+    ).toBe(properties.style);
+    expect(
+      digramContainer?.getAttribute("data-graphviz"),
+      `Container element should have \`${properties.dataGraphviz}\` as its data attribute.\n`,
+    ).toBe(properties.dataGraphviz);
+  });
+
+  test("check if `properties` config works with `className` and `style`", async () => {
+    const md = dedent`
+      \`\`\`dot
+      digraph G {
+        splines="FALSE";
+
+        /* Entities */
+        shortName [label="shortName", shape="square"]
+
+        /* Relationships */
+        F1 -> shortName[label=".63"]
+
+        /* Ranks */
+        { rank=same; shortName; };
+      }
+      \`\`\`
+    `;
+    const properties = {
+      className: "graphviz",
+      style: "overflow: clip;",
+    };
+    const html = unified()
+      .use(remarkParse)
+      .use(remarkRehype)
+      .use(rehypeGraphviz, {
+        graphviz: await Graphviz.load(),
+        properties,
+        className: "this-should-be-overwritten",
+        style: "this-should-be-overwritten",
+      })
+      .use(rehypeStringify)
+      .processSync(md)
+      .toString();
+    const doc = parser.parseFromString(html, "text/html");
+
+    const digramContainer = doc.querySelector("div");
+    expect(
+      digramContainer?.className,
+      `Container element should have \`${properties.className}\` as its class name.\n`,
+    ).toBe(properties.className);
+    expect(
+      digramContainer?.style.cssText,
+      `Container element should have \`${properties.style}\` as its class name.\n`,
+    ).toBe(properties.style);
+  });
 });
