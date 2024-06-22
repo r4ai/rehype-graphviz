@@ -284,21 +284,20 @@ Post processing function for rendered SVG element.
 
 ### Commands
 
-| Command                       | Description               |
-| ----------------------------- | ------------------------- |
-| `bun install`                 | Install dependencies      |
-| `bun run build`               | Build the project         |
-| `bun run test`                | Run tests with watch mode |
-| `bun run check`               | Lint and format           |
-| `npm publish --access public` | Publish to npm            |
+| Command         | Description          |
+| --------------- | -------------------- |
+| `bun install`   | Install dependencies |
+| `bun run build` | Build the project    |
+| `bun run test`  | Run tests            |
+| `bun run check` | Lint and format      |
 
 This project was created using `bun init` in bun v1.0.7. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
 
-### Publishing
+### Versioning
 
-1. Update version in `package.json`
-2. commit with tag `vX.X.X`
-3. push to GitHub
+1. Commit changes
+2. Run `bun run changeset`
+3. Push to GitHub
 
 ## License
 
