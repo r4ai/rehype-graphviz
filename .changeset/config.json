@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "r4ai/pure-esm-package" }
+    { "repo": "r4ai/rehype-graphviz" }
   ],
   "commit": false,
   "fixed": [],
