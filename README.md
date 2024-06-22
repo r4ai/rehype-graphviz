@@ -1,5 +1,7 @@
 # rehype-graphviz
 
+[![CI](https://github.com/r4ai/rehype-graphviz/actions/workflows/ci.yml/badge.svg)](https://github.com/r4ai/rehype-graphviz/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/r4ai/rehype-graphviz/graph/badge.svg?token=O53KL0SJ3N)](https://codecov.io/gh/r4ai/rehype-graphviz)
+
 A rehype plugin to render Graphviz diagrams.
 
 This plugin does:
