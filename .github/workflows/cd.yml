@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js and Bun
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v3
 
       - name: Create .npmrc
         run: |
